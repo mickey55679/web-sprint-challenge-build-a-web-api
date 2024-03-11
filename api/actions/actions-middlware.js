@@ -1,5 +1,9 @@
 // add middlewares here related to actions
 // Middleware to validate project existence 
+
+
+
+
 function validateProjectId(req, res, next) {
   const { id } = req.params;
   const project = projects.find((proj) => proj.id === Number(id));
@@ -18,3 +22,4 @@ function validateProject(req, res, next) {
         next();
     }
 }
+module.exports = { validateProjectId, validateProject };
