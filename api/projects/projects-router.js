@@ -45,6 +45,35 @@ router.post("/", validateProjectData, async (req, res, next) => {
   }
 });
 
+router.put("/:id", validateProjectData, async (req, res, next) => {
+  const { id } = req.params;
+
+  // Check for the presence of all required fields
+  if (
+    req.body.name === undefined ||
+    req.body.description === undefined ||
+    req.body.completed === undefined
+  ) {
+    return res.status(400).json({
+      message: "Missing required name, description, or completed field.",
+    });
+  }
+
+  const changes = {
+    name: req.body.name,
+    description: req.body.description,
+    completed: Boolean(req.body.completed),
+  };
+
+  try {
+    const updatedProject = await Project.update(id, changes);
+    res.status(200).json(updatedProject);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 
 router.use(errorHandler);
 
@@ -52,6 +81,7 @@ function errorHandler(err, req, res, next) {
   console.error(err.stack);
   res.status(400).json({error: "Something went wrong!"})
 }
+
 
 
 module.exports = router;
