@@ -5,7 +5,7 @@ const router = express.Router();
 // Define your routes for projects here
 // Example:
 router.get("/", (req, res) => {
-  res.json({ message: "List of projects" });
+  res.json(projects)
 });
 
 module.exports = router;
