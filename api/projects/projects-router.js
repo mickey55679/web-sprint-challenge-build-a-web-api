@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Project = require('./projects-model')
-const {validateProjectData} = require('./projects-middleware')
+const {validateProjectData, checkProjectExists} = require('./projects-middleware')
 
 
 // Define your routes for projects here
@@ -73,16 +73,10 @@ router.put("/:id", validateProjectData, async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    await Project.remove(id);
-    res.status(204).end();
-  } catch(err) {
-    next(err)
-  }
 
-})
+
+
+
 
 
 

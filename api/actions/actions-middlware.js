@@ -1,8 +1,3 @@
-// add middlewares here related to actions
-// Middleware to validate project existence 
-
-
-
 
 function validateProjectId(req, res, next) {
   const { id } = req.params;
