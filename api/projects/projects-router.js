@@ -14,14 +14,39 @@ res.json(projects);
   } catch(err){
     next(err);
   }
+});
 
+
+router.get('/:id', async (req, res, next) => {
+const { id } = req.params;
+try{
+  const project = await Project.get(id);
+  if (project) {
+    res.json(project);
+  } else {
+    res.status(404).json({message: "Project not found"})
+  }
+} catch (err) {
+  next(err);
+}
 })
+
+
+
+
+
+
+
+
+
+
 router.use(errorHandler);
 
 function errorHandler(err, req, res, next) {
   console.error(err.stack);
   res.status(500).json({error: "Something went wrong!"})
 }
+
 
 module.exports = router;
 
