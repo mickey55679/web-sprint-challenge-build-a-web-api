@@ -47,8 +47,6 @@ router.post("/", validateProjectData, async (req, res, next) => {
 
 router.put("/:id", validateProjectData, async (req, res, next) => {
   const { id } = req.params;
-
-  // Check for the presence of all required fields
   if (
     req.body.name === undefined ||
     req.body.description === undefined ||
@@ -72,6 +70,22 @@ router.put("/:id", validateProjectData, async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
+try{
+  const project = await Project.get(id);
+  if (project) {
+    await Project.remove(id);
+    res.sendStatus(204);
+  } else {
+    res.status(404).json({ message: "Project not found" });
+  }
+
+} catch(err) {
+  next(err)
+}
+})
 
 
 
