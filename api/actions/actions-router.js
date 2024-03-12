@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Action = require('./actions-model')
+const {validateAction, validateProjectId} = require('./actions-middlware')
 
 // Define your routes for actions here
 // Example:
@@ -31,6 +32,16 @@ router.get('/:id', async (req, res, next) => {
     next(error)
   }
 })
+
+router.post('/', validateAction, validateProjectId,  async (req, res, next) => {
+try {
+  const action = await Action.insert(req.body);
+  res.status(201).json(action);
+} catch (error) {
+  next(error);
+}
+})
+
 
 
 
