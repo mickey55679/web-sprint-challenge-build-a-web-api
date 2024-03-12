@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const Project = require('./projects-model')
 const {validateProjectData, checkProjectExists} = require('./projects-middleware')
+const Action = require('../actions/actions-model')
 
 
 // Define your routes for projects here
@@ -86,6 +87,24 @@ try{
   next(err)
 }
 })
+
+
+router.get('/:id/actions', async (req, res, next) => {
+  const { id } = req.params;
+ try {
+  const project = await Project.get(id);
+  if (!project) {
+    return res.status(404).json({message:"Project not found" })
+  }
+  const actions = await Project.getProjectActions(id);
+  if(actions.length === 0) {
+    return res.json([]);
+  }
+  res.json(actions)
+ } catch (err) {
+  next(err);
+ }
+});
 
 
 
