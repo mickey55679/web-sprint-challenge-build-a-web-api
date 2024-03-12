@@ -18,5 +18,27 @@ try{
 }
 
 });
+router.get('/:id', async (req, res, next) => {
+  try{
+    const { id } = req.params;
+    const action = await Action.get(id);
+    if (action) {
+      res.json(action)
+    } else {
+      res.status(404).json({ message: "Action not found"})
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
+
+
+router.use(errorHandler);
+
+function errorHandler(err, req, res, next) {
+  console.error(err.stack);
+  res.status(400).json({ error: "Something went wrong!" });
+}
 
 module.exports = router;
