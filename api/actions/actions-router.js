@@ -41,6 +41,16 @@ try {
   next(error);
 }
 })
+router.put('/:id', validateProjectId, validateAction, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const changes = req.body;
+    const updatedAction = await Action.update(id, changes);
+    res.json(updatedAction)
+  } catch (error){
+    next(error)
+  }
+} )
 
 
 
