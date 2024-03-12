@@ -52,7 +52,20 @@ router.put('/:id', validateProjectId, validateAction, async (req, res, next) => 
   }
 } )
 
+router.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try{
+    const count = await Action.remove(id);
+    if(count > 0) {
+      res.status(200).json({ message: 'The action has been deleted'})
+    } else {
+      res.status(404).json({message: 'The action could not be found'})
+    }
 
+  } catch (error) {
+    next(error);
+  }
+})
 
 
 router.use(errorHandler);
